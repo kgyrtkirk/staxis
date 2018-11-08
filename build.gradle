@@ -12,6 +12,10 @@ dependencies{
   compile('oauth.signpost:signpost-commonshttp4:1.2.1.2')
 
 
+// https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+
+
   compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0'
   compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.0'
 
