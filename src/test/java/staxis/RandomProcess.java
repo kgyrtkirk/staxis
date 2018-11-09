@@ -18,6 +18,8 @@
 
 package staxis;
 
+import java.util.Random;
+
 import staxis.RandomProcess.RPIC;
 
 public class RandomProcess extends ICSeriesGenerator<RPIC> {
@@ -31,6 +33,7 @@ public class RandomProcess extends ICSeriesGenerator<RPIC> {
 
   static class RPIC{
     double lastVal = 0;
+    Random rnd = new Random(84);
   }
 
   @Override
@@ -40,7 +43,8 @@ public class RandomProcess extends ICSeriesGenerator<RPIC> {
 
   @Override
   protected Double f(RPIC ic, double d) {
-    return d;
+    ic.lastVal += ic.rnd.nextDouble();
+    return ic.lastVal;
   }
 
 

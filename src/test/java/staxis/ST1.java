@@ -106,7 +106,7 @@ public class ST1 {
     //    SeriesGenerator series = new SeriesGenerator(1000);
     SeriesGenerator series =
         new UnionSeries(
-            new RandomProcess(100000, 10)
+            new RandomProcess(100000, 1)
             );
 
 
