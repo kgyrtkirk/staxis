@@ -18,27 +18,44 @@
 
 package staxis;
 
-public class SeriesPosition {
+import java.util.Iterator;
 
-  private double idx;
-  private double d;
+public abstract class ICSeriesGenerator<IteratorContext> implements SeriesGenerator {
+  private int maxValue;
 
-  public SeriesPosition(double idx, double d) {
-    this.idx = idx;
-    this.d = d;
+  public ICSeriesGenerator(int n) {
+    this.maxValue = n;
   }
 
   @Override
-  public String toString() {
-    return String.format("(%f,%f)", idx, d);
+  public Iterator<Double> iterator() {
+    return new Iterator<Double>() {
+
+      double val = 0;
+      IteratorContext ic = newIteratorContext();
+
+      @Override
+      public Double next() {
+        if (!hasNext()) {
+          throw new RuntimeException();
+        }
+        return f(ic, val++);
+      }
+
+      @Override
+      public boolean hasNext() {
+        return val < maxValue;
+      }
+    };
   }
 
-  public double getValue() {
-    return d;
+  @Override
+  public int getN() {
+    return maxValue;
   }
 
-  public double getIdx() {
-    return idx;
-  }
+  protected abstract IteratorContext newIteratorContext();
+
+  protected abstract Double f(IteratorContext ic, double d);
 
 }

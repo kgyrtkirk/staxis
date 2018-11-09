@@ -18,27 +18,30 @@
 
 package staxis;
 
-public class SeriesPosition {
+import staxis.RandomProcess.RPIC;
 
-  private double idx;
-  private double d;
+public class RandomProcess extends ICSeriesGenerator<RPIC> {
 
-  public SeriesPosition(double idx, double d) {
-    this.idx = idx;
+  private int d;
+
+  public RandomProcess(int n, int d) {
+    super(n);
     this.d = d;
   }
 
-  @Override
-  public String toString() {
-    return String.format("(%f,%f)", idx, d);
+  static class RPIC{
+    double lastVal = 0;
   }
 
-  public double getValue() {
+  @Override
+  protected RPIC newIteratorContext() {
+    return new RPIC();
+  }
+
+  @Override
+  protected Double f(RPIC ic, double d) {
     return d;
   }
 
-  public double getIdx() {
-    return idx;
-  }
 
 }

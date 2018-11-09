@@ -13,20 +13,7 @@ public class ST1 {
     double min, max;
 
     public MyMoment1(SeriesGenerator series) {
-
-    }
-
-    public void increment(double d) {
-      if (m.getN() == 0) {
-        min = max = d;
-      }
-      if (d < min) {
-        min = d;
-      }
-      if (d > max) {
-        max = d;
-      }
-      m.increment(d);
+      initialize(series);
     }
 
     public double get1() {
@@ -43,17 +30,24 @@ public class ST1 {
 
     @Override
     protected void finish() {
-      throw new RuntimeException();
     }
 
     @Override
     protected void consume(Double d) {
-      increment(d);
+      if (m.getN() == 0) {
+        min = max = d;
+      }
+      if (d < min) {
+        min = d;
+      }
+      if (d > max) {
+        max = d;
+      }
+      m.increment(d);
     }
 
     @Override
     protected void advertiseN(int n) {
-      throw new RuntimeException();
     }
   }
 
@@ -85,6 +79,10 @@ public class ST1 {
       return Beta.regularizedBeta(map(x), a, b);
     }
 
+    @Override
+    public String toString() {
+      return String.format("alpha: %f, beta: %f", a, b);
+    }
   }
 
   static class MyMoment extends SecondMoment {
@@ -105,24 +103,31 @@ public class ST1 {
 
     //    MyMoment1 m2 = new MyMoment1();
 
-    SeriesGenerator series = new SeriesGenerator(1000);
+    //    SeriesGenerator series = new SeriesGenerator(1000);
+    SeriesGenerator series =
+        new UnionSeries(
+            new RandomProcess(100000, 10)
+            );
 
-    MeasurePointConsumer mpc = new MeasurePointConsumer(series, 11);
-    MyMoment1 m2 = new MyMoment1(series);
+
+    OrderedSeries os = new OrderedSeries(series);
+
+    MeasurePointConsumer mpc = new MeasurePointConsumer(os, 11);
+    MyMoment1 m2 = new MyMoment1(os);
 
 
     //    dispatch(series, mpc, m2);
     int U = 0;
-    int V = 10;
-    int L = 70;
+    int V = 1000;
+    int L = 999;
     double cnt = 0;
     for (int i = U; i <= V; i++) {
 
-      int d = i * i * i;// - (i - 50) * (i - 50);
+      int d = i;// - (i - 50) * (i - 50);
       if (d < L) {
         cnt++;
       }
-      m2.increment(d);
+      //      m2.increment(d);
     }
     cnt /= V - U + 1;
 
@@ -130,9 +135,20 @@ public class ST1 {
     System.out.println(m2.get2());
 
     BetaDistributionOracle bb = new BetaDistributionOracle(m2);
+    System.out.println(bb);
+
+
     double ee = bb.estimateCDF(L);
     System.out.println(ee);
     System.out.println(cnt);
+
+    for (SeriesPosition p : mpc.getPoints()) {
+      double eIdx = bb.estimateCDF(p.getValue());
+      double aErr = Math.abs(eIdx - p.getIdx());
+      System.out.printf("%f %f  %f  %f\n", p.getIdx(), p.getValue(), eIdx, aErr);
+
+    }
+
   }
 
 

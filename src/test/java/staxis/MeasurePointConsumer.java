@@ -45,8 +45,11 @@ public class MeasurePointConsumer extends AbstractConsuemer {
   @Override
   protected void consume(Double d) {
     if (nextCapIdx == idx) {
-      points.add(new SeriesPosition(idx, d));
+      points.add(new SeriesPosition((double) idx / n, d));
       nextCapIdx = points.size() * n / (numP - 1);
+      if (nextCapIdx == n) {
+        nextCapIdx -= 1;
+      }
     }
     idx++;
   }
@@ -56,6 +59,11 @@ public class MeasurePointConsumer extends AbstractConsuemer {
     if (idx != n) {
       throw new RuntimeException();
     }
+  }
+
+  public List<SeriesPosition> getPoints() {
+    return points
+    ;
   }
 
 }

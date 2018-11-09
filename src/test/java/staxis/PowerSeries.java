@@ -18,27 +18,19 @@
 
 package staxis;
 
-public class SeriesPosition {
 
-  private double idx;
-  private double d;
+public class PowerSeries extends FSeriesGenerator {
 
-  public SeriesPosition(double idx, double d) {
-    this.idx = idx;
-    this.d = d;
+  private double p;
+
+  public PowerSeries(int n, double p) {
+    super(n);
+    this.p = p;
   }
 
   @Override
-  public String toString() {
-    return String.format("(%f,%f)", idx, d);
-  }
-
-  public double getValue() {
-    return d;
-  }
-
-  public double getIdx() {
-    return idx;
+  protected Double f(double d) {
+    return Math.pow(d, p);
   }
 
 }

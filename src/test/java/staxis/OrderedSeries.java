@@ -18,27 +18,31 @@
 
 package staxis;
 
-public class SeriesPosition {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
-  private double idx;
-  private double d;
+public class OrderedSeries implements SeriesGenerator {
 
-  public SeriesPosition(double idx, double d) {
-    this.idx = idx;
-    this.d = d;
+  private List<Double> valueList = new ArrayList<>();
+
+  public OrderedSeries(SeriesGenerator series) {
+    for (Double double1 : series) {
+      valueList.add(double1);
+    }
+    Collections.sort(valueList);
   }
 
   @Override
-  public String toString() {
-    return String.format("(%f,%f)", idx, d);
+  public Iterator<Double> iterator() {
+    // oh-oh! this gonna hurt!
+    return valueList.iterator();
   }
 
-  public double getValue() {
-    return d;
-  }
-
-  public double getIdx() {
-    return idx;
+  @Override
+  public int getN() {
+    return valueList.size();
   }
 
 }
