@@ -2,23 +2,30 @@ package staxis;
 
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
+
 import org.junit.Test;
 
 public class ST1 {
 
-  static class MyMoment1 {
+  static class MyMoment1 extends AbstractConsuemer {
 
     MyMoment m = new MyMoment();
     double min, max;
+
+    public MyMoment1(SeriesGenerator series) {
+
+    }
 
     public void increment(double d) {
       if (m.getN() == 0) {
         min = max = d;
       }
-      if (d < min)
+      if (d < min) {
         min = d;
-      if (d > max)
+      }
+      if (d > max) {
         max = d;
+      }
       m.increment(d);
     }
 
@@ -32,6 +39,21 @@ public class ST1 {
 
     public double getN() {
       return m.getN();
+    }
+
+    @Override
+    protected void finish() {
+      throw new RuntimeException();
+    }
+
+    @Override
+    protected void consume(Double d) {
+      increment(d);
+    }
+
+    @Override
+    protected void advertiseN(int n) {
+      throw new RuntimeException();
     }
   }
 
@@ -81,8 +103,15 @@ public class ST1 {
   @Test
   public void asd() {
 
-    MyMoment1 m2 = new MyMoment1();
-    //    new SeriesGenerator(1000).;
+    //    MyMoment1 m2 = new MyMoment1();
+
+    SeriesGenerator series = new SeriesGenerator(1000);
+
+    MeasurePointConsumer mpc = new MeasurePointConsumer(series, 11);
+    MyMoment1 m2 = new MyMoment1(series);
+
+
+    //    dispatch(series, mpc, m2);
     int U = 0;
     int V = 10;
     int L = 70;
@@ -105,5 +134,6 @@ public class ST1 {
     System.out.println(ee);
     System.out.println(cnt);
   }
+
 
 }

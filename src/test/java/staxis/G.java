@@ -1,5 +1,7 @@
 package staxis;
 
-public interface G {
+public interface G extends Iterable<Double> {
+
+
 
 }
