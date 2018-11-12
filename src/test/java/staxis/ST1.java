@@ -1,6 +1,5 @@
 package staxis;
 
-import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.stat.descriptive.moment.M3;
 
@@ -23,6 +22,10 @@ public class ST1 {
 
     public double get2() {
       return m.get2();
+    }
+
+    public double get3() {
+      return m.get3();
     }
 
     public double getN() {
@@ -101,6 +104,7 @@ public class ST1 {
     public double get1() {
       return m1;
     }
+
   }
 
   @Test
@@ -111,8 +115,8 @@ public class ST1 {
     //    SeriesGenerator series = new SeriesGenerator(1000);
     SeriesGenerator series =
         new UnionSeries(
-            new DistributionAdapter(new ZipfDistribution(200_000, .9))
-        //            new PowerSeries(2000000, 10)
+            //            new DistributionAdapter(new ZipfDistribution(200_000, 0.8))
+            new PowerSeries(2000000, 5)
         //            new LogSeries(20000000, .01)
         //            new PowerSeries(3, 11)
             );
@@ -139,8 +143,11 @@ public class ST1 {
     }
     cnt /= V - U + 1;
 
-    System.out.println(m2.get1());
-    System.out.println(m2.get2());
+    System.out.println("m1: " + m2.get1());
+    System.out.println("m2: " + m2.get2() / (m2.getN() - 1));
+    System.out.println("m3: " + m2.get3() / (m2.getN() - 1));
+    System.out.println("sSkew: " + m2.m.getSkewness());
+    System.out.println("sKurt: " + m2.m.getKurtosis());
 
     BetaDistributionOracle bb = new BetaDistributionOracle(m2);
     System.out.println(bb);
