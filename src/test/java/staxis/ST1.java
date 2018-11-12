@@ -1,7 +1,8 @@
 package staxis;
 
+import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.apache.commons.math3.special.Beta;
-import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
+import org.apache.commons.math3.stat.descriptive.moment.M3;
 
 import org.junit.Test;
 
@@ -85,9 +86,13 @@ public class ST1 {
     }
   }
 
-  static class MyMoment extends SecondMoment {
+  static class MyMoment extends M3 {
 
     private static final long serialVersionUID = 1L;
+
+    public double get3() {
+      return m3;
+    }
 
     public double get2() {
       return m2;
@@ -106,7 +111,10 @@ public class ST1 {
     //    SeriesGenerator series = new SeriesGenerator(1000);
     SeriesGenerator series =
         new UnionSeries(
-            new RandomProcess(100000, 1)
+            new DistributionAdapter(new ZipfDistribution(200_000, .9))
+        //            new PowerSeries(2000000, 10)
+        //            new LogSeries(20000000, .01)
+        //            new PowerSeries(3, 11)
             );
 
 
