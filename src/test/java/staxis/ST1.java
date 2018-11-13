@@ -1,5 +1,6 @@
 package staxis;
 
+import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.stat.descriptive.moment.M3;
 
@@ -115,8 +116,8 @@ public class ST1 {
     //    SeriesGenerator series = new SeriesGenerator(1000);
     SeriesGenerator series =
         new UnionSeries(
-            //            new DistributionAdapter(new ZipfDistribution(200_000, 0.8))
-            new PowerSeries(2000000, 5)
+            new DistributionAdapter(new ZipfDistribution(200_000, 2.0))
+        //            new PowerSeries(2000000, 5)
         //            new LogSeries(20000000, .01)
         //            new PowerSeries(3, 11)
             );
@@ -126,6 +127,7 @@ public class ST1 {
 
     MeasurePointConsumer mpc = new MeasurePointConsumer(os, 11);
     MyMoment1 m2 = new MyMoment1(os);
+    Freq ff = new Freq(os, 20);
 
 
     //    dispatch(series, mpc, m2);
@@ -156,6 +158,7 @@ public class ST1 {
     double ee = bb.estimateCDF(L);
     System.out.println(ee);
     System.out.println(cnt);
+    System.out.println(ff);
 
     for (SeriesPosition p : mpc.getPoints()) {
       double eIdx = bb.estimateCDF(p.getValue());
