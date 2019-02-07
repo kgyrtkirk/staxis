@@ -1,4 +1,4 @@
-package staxis;
+package hu.rxd.staxis;
 
 import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.apache.commons.math3.special.Beta;
@@ -6,9 +6,17 @@ import org.apache.commons.math3.stat.descriptive.moment.M3;
 
 import org.junit.Test;
 
+import hu.rxd.staxis.api.AbstractConsumer;
+import hu.rxd.staxis.api.SeriesGenerator;
+import hu.rxd.staxis.consumer.Freq;
+import hu.rxd.staxis.consumer.MeasurePointConsumer;
+import hu.rxd.staxis.generator.DistributionAdapter;
+import hu.rxd.staxis.generator.OrderedSeries;
+import hu.rxd.staxis.generator.UnionSeries;
+
 public class ST1 {
 
-  static class MyMoment1 extends AbstractConsuemer {
+  static class MyMoment1 extends AbstractConsumer {
 
     MyMoment m = new MyMoment();
     double min, max;

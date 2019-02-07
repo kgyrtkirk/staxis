@@ -1,6 +1,6 @@
-package staxis;
+package hu.rxd.staxis.api;
 
-import staxis.FSeriesGenerator.IC;
+import hu.rxd.staxis.api.FSeriesGenerator.IC;
 
 public abstract class FSeriesGenerator
     extends ICSeriesGenerator<IC> {

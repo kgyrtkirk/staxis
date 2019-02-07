@@ -1,0 +1,93 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{default}
+
+\begin{document}
+
+
+\begin{verbatim}
+
+Optimization and analysis of large scale data sorting
+algorithm based on Hadoop
+https://arxiv.org/pdf/1506.00449.pdf
+
+
+Skewness and Kurtosis
+https://brownmath.com/stat/shape.htm
+
+Karp paper
+https://www.cs.bgu.ac.il/~dinitz/Course/SS-12/Karp-frequent-el.pdf
+
+
+LC:
+https://www.youtube.com/watch?v=w5B11B30mhA
+https://www.coursera.org/lecture/data-patterns/8-1-frequent-pattern-mining-in-data-streams-F0Gtr
+
+
+Space-Saving:
+http://www.cse.ust.hk/~raywong/comp5331/References/EfficientComputationOfFrequentAndTop-kElementsInDataStreams.pdf
+
+
+Count-Min sketch
+extension to range queries is great; but needs: log(K) sketches
+
+
+Freq Internet packets
+http://erikdemaine.org/papers/NetworkStats_TR2002/paper.pdf
+
+Survey ~2007
+https://pdfs.semanticscholar.org/72f1/5aba2e67b1cc9cd1fb12c99e101c4c1aae4b.pdf
+
+
+***Hot and not Hot 2005
+http://www.mathcs.emory.edu/~cheung/papers/StreamDB/Histogram/2005-Cormode-Histogram.pdf
+
+
+***2008 Study 
+http://eprints.biblio.unitn.it/1440/1/017.pdf
+
+How Postgres does it?
+* runs analysis on a sample
+* full sort does a "standard" histogram
+* interesting feature that it removes the MCV from the histogram
+* (most_common_vals/freq) 
+* most_common_elems 
+
+
+
+STATISTIC_KIND_MCV;
+
+https://www.postgresql.org/docs/11/planner-stats.html
+https://www.postgresql.org/docs/11/planner-stats-details.html
+https://www.postgresql.org/docs/11/view-pg-stats.html
+
+
+Approximate freq 
+Space-saving computation of frequent and top-k elements (Metwally ICDT'05)
+
+survey 2006-7
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.121.277&rep=rep1&type=pdf
+
+
+
+
+
+Count-Min sketch
+* {h1,h2..,h_n} x {1<<k}
+* ins/delete
+* trivial to do a merge
+* extending to range queries is log(n)
+* doable
+
+
+GroupTesting is interesting but has both high memory and computational cost
+* merge might be probably possible
+
+
+
+\end{verbatim}
+
+
+
+\end{document}
