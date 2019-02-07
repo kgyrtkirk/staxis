@@ -6,71 +6,23 @@ import org.apache.commons.math3.stat.descriptive.moment.M3;
 
 import org.junit.Test;
 
-import hu.rxd.staxis.api.AbstractConsumer;
 import hu.rxd.staxis.api.SeriesGenerator;
 import hu.rxd.staxis.consumer.Freq;
 import hu.rxd.staxis.consumer.MeasurePointConsumer;
+import hu.rxd.staxis.consumer.StatMomentsConsumer;
 import hu.rxd.staxis.generator.DistributionAdapter;
 import hu.rxd.staxis.generator.OrderedSeries;
 import hu.rxd.staxis.generator.UnionSeries;
 
 public class ST1 {
 
-  static class MyMoment1 extends AbstractConsumer {
-
-    MyMoment m = new MyMoment();
-    double min, max;
-
-    public MyMoment1(SeriesGenerator series) {
-      initialize(series);
-    }
-
-    public double get1() {
-      return m.get1();
-    }
-
-    public double get2() {
-      return m.get2();
-    }
-
-    public double get3() {
-      return m.get3();
-    }
-
-    public double getN() {
-      return m.getN();
-    }
-
-    @Override
-    protected void finish() {
-    }
-
-    @Override
-    protected void consume(Double d) {
-      if (m.getN() == 0) {
-        min = max = d;
-      }
-      if (d < min) {
-        min = d;
-      }
-      if (d > max) {
-        max = d;
-      }
-      m.increment(d);
-    }
-
-    @Override
-    protected void advertiseN(int n) {
-    }
-  }
-
   static class BetaDistributionOracle {
 
-    private MyMoment1 m2;
+    private StatMomentsConsumer m2;
     private double a;
     private double b;
 
-    public BetaDistributionOracle(MyMoment1 m2) {
+    public BetaDistributionOracle(StatMomentsConsumer m2) {
       this.m2 = m2;
       double mean = map(m2.get1());
       double var = m2.get2() / (m2.max - m2.min) / (m2.max - m2.min) / (m2.getN() - 1);
@@ -98,7 +50,7 @@ public class ST1 {
     }
   }
 
-  static class MyMoment extends M3 {
+  public static class MyMoment extends M3 {
 
     private static final long serialVersionUID = 1L;
 
@@ -134,7 +86,7 @@ public class ST1 {
     OrderedSeries os = new OrderedSeries(series);
 
     MeasurePointConsumer mpc = new MeasurePointConsumer(os, 11);
-    MyMoment1 m2 = new MyMoment1(os);
+    StatMomentsConsumer m2 = new StatMomentsConsumer(os);
     Freq ff = new Freq(os, 20);
 
 
